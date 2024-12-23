@@ -3,19 +3,32 @@
         <source src="snowfallMusic.mp3" type="audio/mpeg">
       </audio>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Winter Island</title>
         <style>
-             @font-face {
+              @font-face {
                 font-family: 'ACMA';
                 src: url('acmal.otf') format('truetype');
             }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            body {
+                min-height: 100vh;
+                overflow-x: hidden;
+                background: linear-gradient(#8fadce, #a4c2e3);
+            }
+
             .recap-button {
                 position: fixed;
-                top: 55%;
+                top: 60%;
                 left: 50%;
                 transform: translate(-50%, -50%);
                 font-family: 'ACMA', sans-serif;
-                font-size: 24px;
+                font-size: clamp(16px, 2vw, 24px);
                 color: white;
                 background: transparent;
                 border: 2px solid white;
@@ -23,6 +36,7 @@
                 padding: 10px 20px;
                 cursor: pointer;
                 transition: all 0.3s ease;
+                z-index: 10;
             }
 
             .recap-button:hover {
@@ -36,9 +50,10 @@
                 left: 50%;
                 transform: translate(-50%, -50%);
                 font-family: 'ACMA', sans-serif;
-                font-size: 120px;
+                font-size: clamp(40px, 8vw, 120px);
                 color: white;
-                
+                width: 90%;
+                text-align: center;
             }
             :root {
                 --snow-size: 8px;
@@ -51,56 +66,74 @@
 
             .snow-container {
                 position: fixed;
-                width: 100%;
-                height: 100%;
-                top: 0;
+                width: 100vw;
+                height: 100vh;
+                top: -5%;
                 left: 0;
                 pointer-events: none;
+                overflow: hidden;
             }
             
 
             .snow {
                 position: fixed;
-                top: -10%;
-                width: var(--snow-size);
-                height: var(--snow-size);
-                background: var(--snow-color);
+                width: var(--snow-size, 8px);
+                height: var(--snow-size, 8px);
+                background: white;
                 border-radius: 50%;
-                filter: blur(var(--snow-blur));
-                animation: fall var(--animation-duration) linear infinite;
+                filter: blur(0.5px);
+                animation: fall 12s linear infinite;
             }
-            .clouds1{
+            .clouds1 {
                 position: fixed;
-                top: -10%;
+                top: 10%;
                 left: -10%;
-                width: 40%;
-                height: 40%;
+                width: 30%;
+                height: auto;
                 pointer-events: none;
                 opacity: 0.4;
                 z-index: -2;
             }
-            .branch{
-                
+            .branch {
                 filter: hue-rotate(90deg) brightness(10%) grayscale(10%);
                 position: fixed;
                 top: 5%;
-                right: -25%;
-                width: 70%;
-                height: 70%;
+                right: -5%;
+                width: 30%;
+                height: auto;
                 pointer-events: none;
-                opacity: 1;
                 z-index: -2;
             }
             .snowdown {
-    position: fixed;
-    top: 55%;
-    left: -10%;
-    bottom: 0;
-    width: 120%;
-    height: 80%;
-    pointer-events: none;
-    opacity: 1;
-}
+                position: fixed;
+                bottom: -10%;
+                left: -10%;
+                width: 120%;
+                height: auto;
+                pointer-events: none;
+                z-index: -1;
+            }
+            .snowdown {
+                position: fixed;
+                bottom: 0;
+                left: -10%;
+                width: 120%;
+                height: auto;
+                pointer-events: none;
+                z-index: -1;
+            }
+            .tree {
+                position: fixed;
+                bottom: 5%;
+                width: 100%;
+                z-index: -1;
+            }
+
+            .tree svg {
+                width: clamp(200px, 30vw, 500px);
+                height: auto;
+            }
+
 
             .snow:nth-child(2n) { width: 7px; height: 7px; animation-duration: 9s; }
             .snow:nth-child(3n) { width: 5px; height: 5px; animation-duration: 14s; }
@@ -118,44 +151,29 @@
                 top: 40%;
                 left: 50%;
                 transform: translate(-50%, -50%);
+                width: 90%;
+                max-width: 800px;
                 z-index: 1;
+                text-align: center;
             }
 
             .text-slide {
                 display: none;
                 font-family: 'ACMA', sans-serif;
-                font-size: 120px;
                 color: white;
-                text-align: center;
                 opacity: 0;
                 animation: fadeIn 4s forwards;
+                width: 100%;
             }
-            .text-slide.slide2 {
-                display: none;
-                font-family: 'ACMA', sans-serif;
-                font-size: 40px;
-                color: white;
-                text-align: center;
-                opacity: 0;
-                
+
+            .text-slide.slide1 {
+                font-size: clamp(40px, 8vw, 120px);
             }
-            .text-slide.slide3 {
-                display: none;
-                font-family: 'ACMA', sans-serif;
-                font-size: 40px;
-                color: white;
-                text-align: center;
-                opacity: 0;
-                
-            }
+
+            .text-slide.slide2,
+            .text-slide.slide3,
             .text-slide.slide4 {
-                display: none;
-                font-family: 'ACMA', sans-serif;
-                font-size: 40px;
-                color: white;
-                text-align: center;
-                opacity: 0;
-                
+                font-size: clamp(16px, 3vw, 40px);
             }
             @keyframes fadeIn {
                 from { opacity: 0; }
@@ -226,21 +244,13 @@
     
     <body style="background: linear-gradient(#8fadce, #a4c2e3);">
         <div class="tree">
-            <svg height="220" width="500" xmlns="http://www.w3.org/2000/svg" transform="rotate(15)" style="position: fixed;
-            top:78%;
-            z-index: -1;">
+            <svg height="220" width="500" xmlns="http://www.w3.org/2000/svg" transform="rotate(15) " >
                 <polygon points="100,10 150,190 50,190" style="fill:#044339;" />
               </svg>
-              <svg height="220" width="500" xmlns="http://www.w3.org/2000/svg" transform="rotate(-15)" style="position: fixed;
-              top:78%;
-              left:70%;
-              z-index: -1;">
+              <svg height="220" width="500" xmlns="http://www.w3.org/2000/svg" transform="rotate(-15)" >
                 <polygon points="100,10 150,190 50,190" style="fill:#044339;" />
               </svg>
-              <svg height="220" width="500" xmlns="http://www.w3.org/2000/svg" transform="rotate(4)" style="position: fixed;
-              top:74%;
-              left: 90%;
-              z-index: -1;">
+              <svg height="220" width="500" xmlns="http://www.w3.org/2000/svg" transform="rotate(4)" >
                 <polygon points="100,10 150,190 50,190" style="fill:#044339;" />
               </svg>
         </div>
